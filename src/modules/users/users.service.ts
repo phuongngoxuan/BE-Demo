@@ -11,6 +11,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { httpErrors } from 'src/shares/exceptions';
 import { UserFacebookInfoDto } from '../auth/dto/user-facebook-info.dto';
 import { UserGoogleInfoDto } from '../auth/dto/user-google-info.dto';
+import { ResPagingDto } from 'src/shares/dtos/pagination.dto';
 
 @Injectable()
 export class UsersService {
@@ -25,16 +26,13 @@ export class UsersService {
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    return this.userModel.create(
-      {
-        ...createUserDto,
-        password: hashedPassword,
-      },
-      { new: true },
-    );
+    return this.userModel.create({
+      ...createUserDto,
+      password: hashedPassword,
+    });
   }
 
-  async findAll(query: GetUsersDto): Promise<User[]> {
+  async findAll(query: GetUsersDto): Promise<ResPagingDto<User[]>> {
     const { sort, page, limit } = query;
     return this.userModel
       .find()

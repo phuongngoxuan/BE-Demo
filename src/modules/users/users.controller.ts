@@ -7,6 +7,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { GetUserByIdDto } from './dto/get-user-id.dto';
 import { User } from '@sentry/node';
+import { ResPagingDto } from 'src/shares/dtos/pagination.dto';
 
 @ApiTags('Users')
 @Controller('users')
@@ -15,7 +16,7 @@ export class UsersController {
 
   @Get()
   @ApiOperation({ summary: 'Get all user' })
-  async findAll(@Query() query: GetUsersDto): Promise<User[]> {
+  async findAll(@Query() query: GetUsersDto): Promise<ResPagingDto<User[]>> {
     return this.usersService.findAll(query);
   }
 

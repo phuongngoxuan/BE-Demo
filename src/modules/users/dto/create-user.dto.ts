@@ -4,17 +4,17 @@ import { ApiProperty } from '@nestjs/swagger';
 export class CreateUserDto {
   @ApiProperty({
     required: true,
-    example: 'nate json',
+    example: 'nate',
   })
   @IsNotEmpty()
-  name: string;
+  lastName: string;
 
   @ApiProperty({
     required: true,
-    example: 'Ha Noi',
+    example: 'BE ',
   })
   @IsNotEmpty()
-  address: string;
+  firstName: string;
 
   @IsNotEmpty({ message: 'Email address is required' })
   @IsEmail({}, { message: 'Invalid email address' })
@@ -34,8 +34,15 @@ export class CreateUserDto {
 
   @ApiProperty({
     required: true,
+    example: '0337231189',
+  })
+  @IsNotEmpty()
+  readonly phone: string;
+
+  @ApiProperty({
+    required: true,
     example: 'https://resq-bucket-2.s3.amazonaws.com/test/1681115579264_c49717abc07d480.jpeg',
   })
   @IsNotEmpty()
-  image_url: string;
+  img: string;
 }

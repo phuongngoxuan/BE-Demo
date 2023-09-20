@@ -36,6 +36,10 @@ export const httpErrors = {
     message: 'You are not authorized to access this resource.',
     code: 'USER_00008',
   },
+  USER_UNVERIFIED: {
+    message: 'Unverified user.',
+    code: 'USER_00009',
+  },
   USER_EMAIL_EXISTED: {
     message: 'Email has been associted with an other account.',
     code: 'USER_00025',
@@ -83,5 +87,11 @@ export const httpErrors = {
   GOOGLE_TOKEN_INVALID_OR_EXPIRES: {
     message: 'Access token is invalid or expires.',
     code: 'GOOGLE_00000',
+  },
+
+  // product
+  PRODUCT_NOT_FOUND: {
+    message: 'Product not found.',
+    code: 'PRODUCT_00000',
   },
 };

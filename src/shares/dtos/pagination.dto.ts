@@ -5,7 +5,7 @@ import { IsIn, IsInt, IsOptional, IsPositive, Max } from 'class-validator';
 export class PaginationDto {
   @ApiPropertyOptional({
     required: true,
-    example: 'DESC',
+    example: 'desc',
     description: '',
   })
   @Transform(({ value }) => String(value))
@@ -27,4 +27,10 @@ export class PaginationDto {
   @IsPositive()
   @IsOptional()
   limit?: number = 10;
+}
+
+export class ResPagingDto<T> {
+  result: T;
+  total: number;
+  lastPage: number;
 }

@@ -15,14 +15,16 @@ export class User {
   googleId: string;
 
   @Prop({ type: String })
-  name: string;
+  lastName: string;
+
+  @Prop({ type: String })
+  firstName: string;
 
   @Prop({
     type: String,
     unique: true,
     sparse: true,
     trim: true,
-    lowercase: true,
   })
   email: string;
 
@@ -33,11 +35,14 @@ export class User {
   @Prop({ type: String, enum: UserRole, default: UserRole.USER })
   role: UserRole;
 
-  @Prop({ default: '' })
-  image_url: string;
+  @Prop({ type: String, default: '' })
+  img: string;
+
+  @Prop({ type: String, default: '' })
+  phone: string;
 
   @Prop({ type: Boolean, default: false })
-  banned: boolean;
+  verified: boolean;
 
   @Prop({ type: Date })
   lastLoginAt: Date;

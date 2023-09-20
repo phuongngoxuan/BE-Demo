@@ -1,21 +1,48 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNumber, IsOptional, IsString, MaxLength } from 'class-validator';
+import { IsEmail, IsOptional } from 'class-validator';
 
 export class UpdateUserDto {
-  @ApiProperty({ default: 'John Doe' })
-  @IsString()
+  @ApiProperty({
+    required: true,
+    example: 'nate',
+  })
   @IsOptional()
-  @MaxLength(30)
-  readonly name?: string;
+  lastName: string;
 
-  @ApiProperty()
-  @IsEmail()
+  @ApiProperty({
+    required: true,
+    example: 'BE ',
+  })
   @IsOptional()
-  readonly email?: string;
+  firstName: string;
 
-  @ApiProperty({ default: 'https://resq-bucket-2.s3.amazonaws.com/test/1681115579264_c49717abc07d480.jpeg' })
+  @IsEmail({}, { message: 'Invalid email address' })
   @IsOptional()
-  @IsNumber()
-  @IsString()
-  readonly image_url?: string;
+  @ApiProperty({
+    example: 'john.doe@example.com',
+    description: 'The email address of the user',
+    format: 'email',
+  })
+  email: string;
+
+  @ApiProperty({
+    required: true,
+    example: '123456789',
+  })
+  @IsOptional()
+  readonly password: string;
+
+  @ApiProperty({
+    required: true,
+    example: '0337231189',
+  })
+  @IsOptional()
+  readonly phone: string;
+
+  @ApiProperty({
+    required: true,
+    example: 'https://resq-bucket-2.s3.amazonaws.com/test/1681115579264_c49717abc07d480.jpeg',
+  })
+  @IsOptional()
+  img: string;
 }

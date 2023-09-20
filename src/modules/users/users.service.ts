@@ -19,10 +19,10 @@ export class UsersService {
 
   async createUser(createUserDto: CreateUserDto): Promise<any> {
     const { email, password } = createUserDto;
-    const user = await this.userModel.findOne({ email });
-    if (user) {
-      throw new BadRequestException(httpErrors.ACCOUNT_EXISTED);
-    }
+    // const user = await this.userModel.findOne({ email });
+    // if (user) {
+    //   throw new BadRequestException(httpErrors.ACCOUNT_EXISTED);
+    // }
 
     const hashedPassword = await bcrypt.hash(password, 12);
 

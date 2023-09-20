@@ -103,4 +103,27 @@ export class UsersService {
       lastLoginAt: new Date(),
     });
   }
+
+  async deleteById(_id: string): Promise<void> {
+    const product = await this.userModel.findOne({ _id });
+    if (!product) {
+      throw new BadRequestException(httpErrors.ACCOUNT_NOT_FOUND);
+    }
+
+    await this.userModel.findOneAndUpdate({ _id }, { deleted: true });
+  }
+
+  async deleteIds(ids: string[]): Promise<void> {
+    await Promise.all(
+      ids.map(async (id) => {
+        const product = await this.userModel.findById(id);
+
+        if (!product) {
+          throw new BadRequestException(httpErrors.ACCOUNT_NOT_FOUND);
+        }
+
+        await this.userModel.findOneAndUpdate({ _id: id }, { deleted: true });
+      }),
+    );
+  }
 }

@@ -87,8 +87,8 @@ export class ProductService {
   }
 
   async deleteById(_id: string): Promise<void> {
-    const productInfo = await this.productModel.findOne({ _id });
-    if (!productInfo) {
+    const product = await this.productModel.findOne({ _id });
+    if (!product) {
       throw new BadRequestException(httpErrors.PRODUCT_NOT_FOUND);
     }
 
@@ -98,9 +98,9 @@ export class ProductService {
   async deleteIds(ids: string[]): Promise<void> {
     await Promise.all(
       ids.map(async (id) => {
-        const gift = await this.productModel.findById(id);
+        const product = await this.productModel.findById(id);
 
-        if (!gift) {
+        if (!product) {
           throw new BadRequestException(httpErrors.PRODUCT_NOT_FOUND);
         }
 

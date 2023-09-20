@@ -36,7 +36,6 @@ export class UsersController {
   @Get(':id')
   @ApiOperation({ summary: 'Get user by id' })
   @ApiOkResponse({ description: 'The user has been successfully retrieved' })
-  @ApiResponse({ status: 404, description: 'User not found' })
   async findById(@Param() getUserByIdDto: GetUserByIdDto): Promise<User> {
     return this.usersService.findById(getUserByIdDto.id);
   }

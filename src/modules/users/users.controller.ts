@@ -1,5 +1,5 @@
-import { Controller, Get, Param, Patch, Query, Post, Body } from '@nestjs/common';
-import { ApiOkResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Controller, Get, Param, Patch, Query, Post, Body, Delete } from '@nestjs/common';
+import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UsersService } from './users.service';
 import { UserDocument } from './schemas/users.schema';
 import { GetUsersDto } from './dto/get-users.dto';
@@ -8,6 +8,9 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { GetUserByIdDto } from './dto/get-user-id.dto';
 import { User } from '@sentry/node';
 import { ResPagingDto } from 'src/shares/dtos/pagination.dto';
+import { UserAuth } from 'src/shares/decorators/http.decorators';
+import { UserRole } from 'src/shares/enums/user.enum';
+import { IdDto, IdsDto } from 'src/shares/dtos/param.dto';
 
 @ApiTags('Users')
 @Controller('users')
@@ -38,5 +41,21 @@ export class UsersController {
   @ApiOkResponse({ description: 'The user has been successfully retrieved' })
   async findById(@Param() getUserByIdDto: GetUserByIdDto): Promise<User> {
     return this.usersService.findById(getUserByIdDto.id);
+  }
+
+  @Delete(':id')
+  // @ApiBearerAuth()
+  // @UserAuth([UserRole.ADMIN])
+  @ApiOperation({ summary: 'Delete user by id' })
+  async deleteOne(@Param() { id }: IdDto): Promise<void> {
+    await this.usersService.deleteById(id);
+  }
+
+  @Delete()
+  @ApiBearerAuth()
+  // @UserAuth([UserRole.ADMIN])
+  // @ApiOperation({ summary: '[ ADMIN ] delete many products' })
+  async deleteMany(@Body() { ids }: IdsDto): Promise<void> {
+    await this.usersService.deleteIds(ids);
   }
 }

@@ -22,7 +22,6 @@ export class User {
 
   @Prop({
     type: String,
-    unique: true,
     sparse: true,
     trim: true,
   })
@@ -46,6 +45,9 @@ export class User {
 
   @Prop({ type: Date })
   lastLoginAt: Date;
+
+  @Prop({ required: false, type: Boolean, default: false })
+  deleted?: boolean;
 }
 
 export type UserDocument = User & Document;

@@ -32,14 +32,26 @@ export class UsersService {
     });
   }
 
-  async findAll(query: GetUsersDto): Promise<ResPagingDto<User[]>> {
-    const { sort, page, limit } = query;
-    return this.userModel
-      .find()
-      .skip((page - 1) * limit)
-      .limit(limit)
-      .sort({ createdAt: sort })
-      .lean();
+  async findAll(param: GetUsersDto): Promise<ResPagingDto<User[]>> {
+    const { sort, page, limit } = param;
+
+    const query: any = {};
+    query.deleted = false;
+
+    const [result, total] = await Promise.all([
+      this.userModel
+        .find(query)
+        .skip((page - 1) * limit)
+        .limit(limit)
+        .sort({ createdAt: sort }),
+      this.userModel.find(query).countDocuments(),
+    ]);
+
+    return {
+      result,
+      total,
+      lastPage: Math.ceil(total / limit),
+    };
   }
 
   async findByIdAndUpdate(id: string, updateUserDto: UpdateUserDto): Promise<User> {

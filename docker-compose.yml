@@ -28,24 +28,10 @@ services:
     restart: always
     networks:
       - mongo_replica
-
-  mongo-2:
-    container_name: mongo-replica-2
-    image: mongo
-    ports:
-      - "27003:27017"
-    environment:
-      MONGO_INITDB_REPLICASET: my-mongo-set
-    command: >
-      mongod --replSet my-mongo-set    
-    # volumes: # - ./mongodb/replica2:/data/db
-    restart: always
-    networks:
-      - mongo_replica
-
+ 
   redis:
     image: 'redis:6-alpine'
-    container_name: fashion-redis
+    container_name: redis
     ports:
       - 6378:6379
     command: redis-server --save 20 1 --loglevel warning

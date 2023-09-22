@@ -1,9 +1,13 @@
 import { Controller, Get, Query, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { UserAuth } from 'src/shares/decorators/http.decorators';
+import {
+  //  ApiBearerAuth,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
+// import { UserAuth } from 'src/shares/decorators/http.decorators';
 import { ResPagingDto } from 'src/shares/dtos/pagination.dto';
 import { GetProductDto } from './dto/get-product.dto';
-import { UserRole } from 'src/shares/enums/user.enum';
+// import { UserRole } from 'src/shares/enums/user.enum';
 import { CreateProductDto } from './dto/create-product.dto';
 import { ProductService } from './product.service';
 import { Product } from './schemas/product.schema';
@@ -11,8 +15,8 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { IdDto, IdsDto } from 'src/shares/dtos/param.dto';
 import { UserID } from 'src/shares/decorators/get-user-id.decorator';
 
-@ApiTags('Product')
-@Controller('product')
+@ApiTags('Products')
+@Controller('products')
 export class ProductController {
   constructor(private productService: ProductService) {}
 
@@ -29,8 +33,8 @@ export class ProductController {
   }
 
   @Post()
-  @ApiBearerAuth()
-  @UserAuth([UserRole.ADMIN])
+  // @ApiBearerAuth()
+  // @UserAuth([UserRole.ADMIN])
   @ApiOperation({ summary: '[ ADMIN ] create new product' })
   async create(@Body() createProductDto: CreateProductDto, @UserID() userId: string): Promise<void> {
     console.log(userId);
@@ -38,24 +42,24 @@ export class ProductController {
   }
 
   @Patch(':id')
-  @ApiBearerAuth()
-  @UserAuth([UserRole.ADMIN])
+  // @ApiBearerAuth()
+  // @UserAuth([UserRole.ADMIN])
   @ApiOperation({ summary: '[ ADMIN ] Update product by id' })
   async update(@Param() param: IdDto, @Body() updateUserDto: UpdateProductDto): Promise<void> {
     await this.productService.findByIdAndUpDate(param.id, updateUserDto);
   }
 
   @Delete(':id')
-  @ApiBearerAuth()
-  @UserAuth([UserRole.ADMIN])
+  // @ApiBearerAuth()
+  // @UserAuth([UserRole.ADMIN])
   @ApiOperation({ summary: 'Delete product by id' })
   async deleteOne(@Param() { id }: IdDto): Promise<void> {
     await this.productService.deleteById(id);
   }
 
   @Delete()
-  @ApiBearerAuth()
-  @UserAuth([UserRole.ADMIN])
+  // @ApiBearerAuth()
+  // @UserAuth([UserRole.ADMIN])
   @ApiOperation({ summary: '[ ADMIN ] delete many products' })
   async deleteMany(@Body() body: IdsDto): Promise<void> {
     await this.productService.deleteIds(body.ids);

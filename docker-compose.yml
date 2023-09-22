@@ -2,32 +2,43 @@
 version: "3.1"
 
 services:
-  mongo-0:
-    container_name: mongo-primary
+
+  mongodb:
+    container_name: database-mongo-demo
     image: mongo
+    restart: always
     ports:
       - "27001:27017"
     environment:
-      MONGO_INITDB_REPLICASET: my-mongo-set
-    command: mongod --replSet my-mongo-set
-    # volumes: # - ./mongodb/primary:/data/db
-    restart: always
-    networks:
-      - mongo_replica
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
 
-  mongo-1:
-    container_name: mongo-replica-1
-    image: mongo
+  # mongo-0:
+  #   container_name: mongo-primary
+  #   image: mongo
+  #   ports:
+  #     - "27001:27017"
+  #   environment:
+  #     MONGO_INITDB_REPLICASET: my-mongo-set
+  #   command: mongod --replSet my-mongo-set
+  #   # volumes: # - ./mongodb/primary:/data/db
+  #   restart: always
+  #   networks:
+  #     - mongo_replica
 
-    ports:
-      - "27002:27017"
-    environment:
-      MONGO_INITDB_REPLICASET: my-mongo-set
-    command: mongod --replSet my-mongo-set
-    # volumes: # - ./mongodb/replica1:/data/db
-    restart: always
-    networks:
-      - mongo_replica
+  # mongo-1:
+  #   container_name: mongo-replica-1
+  #   image: mongo
+
+  #   ports:
+  #     - "27002:27017"
+  #   environment:
+  #     MONGO_INITDB_REPLICASET: my-mongo-set
+  #   command: mongod --replSet my-mongo-set
+  #   # volumes: # - ./mongodb/replica1:/data/db
+  #   restart: always
+  #   networks:
+  #     - mongo_replica
  
   redis:
     image: 'redis:6-alpine'
